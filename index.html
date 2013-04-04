@@ -556,6 +556,7 @@ BB.player2collision=function (x, y) {
 
 };
 
+BB.sound2delay=0;
 BB.game2collision=function () {
    var count=0;
    for (var p=0; p < BB.set2collision.length; p++) {
@@ -585,7 +586,13 @@ BB.game2collision=function () {
 
    if (count > 0) {
       if (BB.media2collision != null) {
-         BB.media2collision.play();
+         if (BB.sound2delay <1) {
+            BB.media2collision.play();
+            BB.sound2delay=BB.fps2target;
+         }
+         else {
+            BB.sound2delay--;
+         }
       }
    }
 };
