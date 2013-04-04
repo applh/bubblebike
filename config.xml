@@ -54,6 +54,7 @@ Avoid Bubble Bombs.
         <gap:plugin name="Example" />
         A list of available plugins are available at https://build.phonegap.com/docs/plugins
     -->
+    <plugin name="Media" value="org.apache.cordova.AudioHandler" />
 
     <!-- Define app icon for each platform. -->
     <icon src="res/icon/icon.png" />
