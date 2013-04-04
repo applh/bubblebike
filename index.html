@@ -349,7 +349,7 @@ BB.scene2animate=function (fps) {
          var cf="rgb("+cr+","+cg+","+cb+")";
          var cs="rgb("+cg+","+cb+","+cr+")";
          var alpha=0.002*Math.round(1000/BB.npc.length);
-         var radius=Math.round(100*Math.random());
+         var radius=Math.round(10+100*Math.random());
 
          BB.init2npc(BB.w2, BB.h2, cf, cs, alpha, radius);
       }
@@ -529,7 +529,7 @@ BB.game2press=function (smx, smy) {
          }
          else {
             if (BB.media2bg != null) {
-               BB.media2bg.play();
+               BB.media2bg.play({numberOfLoops: 50});
             }
          }
       }
@@ -704,6 +704,8 @@ function init() {
             BB.h3=Math.round(BB.height/3);
             BB.w4=Math.round(BB.width/4);
             BB.h4=Math.round(BB.height/4);
+
+            BB.fps2target=10*Math.round(BB.w4/100);
 
             //drawingCanvas = new createjs.Shape();
 
