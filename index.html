@@ -120,18 +120,18 @@ BB.init2player=function(x, y, cf, cs) {
    var s = new createjs.Shape();
    s.graphics
       .beginStroke(cs)
-      .beginLinearGradientFill([cs,cf], [0,1], -5,-5, 5,5)
+      .beginFill(cf)
       .drawCircle(0, 0, 10)
 
       .beginFill(cs)
       .drawRoundRectComplex(-6,-2, 18,4, 2,-2,-2,2)
 
       .beginStroke(cs)
-      .beginLinearGradientFill([cs, cf], [0,1], -5,-5, 5,5)
+      .beginFill(cf)
       .drawRoundRectComplex(-7,-3, 7,6, 4,1,1,4)
 
       .beginStroke(cs)
-      .beginLinearGradientFill([cs,"#ffffff"], [0.5,1], -5,-5, 5,5)
+      .beginFill(cf)
       .drawRoundRectComplex(0,-3, 11,6, -4,4,4,-4)
       ;
    //Set position of Shape instance.
@@ -154,7 +154,6 @@ BB.init2npc=function(x, y, cf, cs, alpha, radius) {
    //Create a Shape DisplayObject.
    var s = new createjs.Shape();
    s.graphics.beginStroke(cs)
-     //.beginRadialGradientFill([cf, cs], [0.5,1], 0,0,0, 0,0,radius)
      .beginFill(cf)
      .drawCircle(0, 0, radius);
    //Set position of Shape instance.
