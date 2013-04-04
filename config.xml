@@ -24,13 +24,14 @@ Avoid Bubble Bombs.
         The 'device' permission is required for the 'deviceready' event.
     -->
     <feature name="http://api.phonegap.com/1.0/device" />
+    <feature name="http://api.phonegap.com/1.0/media"/>
 
     <!--
         If you do not want any permissions to be added to your app, add the
         following tag to your config.xml; you will still have the INTERNET
         permission on your app, which PhoneGap requires.
-    -->
     <preference name="permissions"                value="none"/>
+    -->
 
     <!-- Customize your app and platform with the preference element. -->
     <preference name="phonegap-version"           value="2.3.0" />          <!-- all: current version of PhoneGap -->
@@ -54,7 +55,6 @@ Avoid Bubble Bombs.
         <gap:plugin name="Example" />
         A list of available plugins are available at https://build.phonegap.com/docs/plugins
     -->
-    <plugin name="Media" value="org.apache.cordova.AudioHandler" />
 
     <!-- Define app icon for each platform. -->
     <icon src="res/icon/icon.png" />

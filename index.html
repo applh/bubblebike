@@ -333,7 +333,7 @@ BB.frame2update=function (event) {
    }
    else if (BB.game2pause){
       if (!BB.game2finish) {
-         BB.showMessage("* BUBBLE BIKE\n\n* touch to play", "#ffffff");
+         BB.showMessage(" * BUBBLE BIKE\n\n * touch to play", "#ffffff");
       }
    }
 
@@ -478,8 +478,8 @@ BB.game2npcs=function () {
 
 BB.game2press=function (smx, smy) {
    var found=false;
-   var level2=1600;
-   var level2c=0.25*BB.w3*BB.h3;
+   var level2=2500; // 50x50
+   var level2c=10000; //100x100
    for (var p1=0; p1<BB.button.length; p1++) {
       var player1=BB.button[p1];
       var d2=(player1.x-smx)*(player1.x-smx) + (player1.y-smy)*(player1.y-smy);
@@ -521,19 +521,20 @@ BB.game2press=function (smx, smy) {
          BB.game2pause=!BB.game2pause;
 
          if (BB.game2finish) BB.game2finish=false;
+
+         if (BB.game2pause) {
+            if (BB.media2bg != null) {
+               BB.media2bg.pause();
+            }
+         }
+         else {
+            if (BB.media2bg != null) {
+               BB.media2bg.play();
+            }
+         }
       }
    }
 
-   if (BB.game2pause) {
-      if (BB.media2bg != null) {
-         BB.media2bg.pause();
-      }
-   }
-   else {
-      if (BB.media2bg != null) {
-         BB.media2bg.play();
-      }
-   }
 };
 
 
@@ -587,7 +588,7 @@ BB.game2collision=function () {
             stage.removeChild(curp);
             BB.set2collision[p]=null;
          }
-         else if (curp.alpha >0.9) {
+         else if (curp.alpha >0.8) {
             count++;
          }
       }
@@ -609,7 +610,7 @@ BB.game2collision=function () {
       if (BB.media2collision != null) {
          if (BB.sound2delay <0) {
             BB.media2collision.play();
-            BB.sound2delay=BB.fps2target;
+            BB.sound2delay=BB.fps2min;
          }
       }
    }
@@ -721,7 +722,7 @@ function init() {
 
             BB.game2reset();
 
-            BB.showMessage("* BUBBLE BIKE\n\n* touch to play", "#ffffff");
+            BB.showMessage(" * BUBBLE BIKE\n\n * touch to play", "#ffffff");
 
             createjs.Ticker.addEventListener("tick", BB.frame2update);
             createjs.Ticker.addEventListener("tick", stage);
