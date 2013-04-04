@@ -16,6 +16,8 @@ body {
    margin:0;
    overflow:hidden;
    background-color:#000000;
+   min-width:960px;
+   min-height:540px;
 }
     </style>
 
@@ -224,7 +226,7 @@ BB.init2npcs=function() {
     BB.init2npc(2*BB.w3, 2*BB.h3, "#ff5500", "#ff0000", 1, 10);
     BB.init2npc(BB.w2, BB.h2, "#ff5500", "#ff0000", 1, 10);
 
-    if (BB.width*BB.height > 640000) {
+    if (BB.width*BB.height > 1600000) {
       BB.init2npc(BB.w3, BB.h3, "#ff5500", "#ff0000", 1, 10);
       BB.init2npc(2*BB.w3, BB.h3, "#ff5500", "#ff0000", 1, 10);
       BB.init2npc(BB.w3, 2*BB.h3, "#ff5500", "#ff0000", 1, 10);
@@ -863,9 +865,9 @@ BB.device2ready=function() {
    BB.media2bg = new Media("assets/bb-bg.mp3", BB.media2success, BB.media2error);
    BB.media2collision = new Media("assets/bb-collision.mp3", BB.media2success, BB.media2error);
    
-   if (BB.media2collision != null) {
-      BB.media2collision.play();
-   }
+   //if (BB.media2collision != null) {
+   //   BB.media2collision.play();
+   //}
    if (BB.media2bg != null) {
       BB.media2bg.play({numberOfLoops: 50});
    }
