@@ -224,7 +224,7 @@ BB.init2npcs=function() {
     BB.init2npc(2*BB.w3, 2*BB.h3, "#ff5500", "#ff0000", 1, 10);
     BB.init2npc(BB.w2, BB.h2, "#ff5500", "#ff0000", 1, 10);
 
-    if (BB.width*BB.height > 1400000) {
+    if (BB.width*BB.height > 640000) {
       BB.init2npc(BB.w3, BB.h3, "#ff5500", "#ff0000", 1, 10);
       BB.init2npc(2*BB.w3, BB.h3, "#ff5500", "#ff0000", 1, 10);
       BB.init2npc(BB.w3, 2*BB.h3, "#ff5500", "#ff0000", 1, 10);
@@ -342,7 +342,10 @@ BB.frame2update=function (event) {
    }
 
    if (BB.text2info != null) {
-      BB.text2info.text=fps+"/"+BB.npc.length +"/ v1.0 BY APPLH.COM";
+      BB.text2info.text=
+         fps+"/"+BB.npc.length 
+         +"/" +BB.width+"x"+BB.height
+         +"/ v1.0 BY APPLH.COM";
    }
 
    if (BB.game2play) {
