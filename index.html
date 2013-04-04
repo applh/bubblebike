@@ -777,6 +777,9 @@ BB.device2ready=function() {
    BB.media2bg = new Media("assets/bb-bg.mp3", BB.media2success, BB.media2error);
    BB.media2collision = new Media("assets/bb-collision.mp3", BB.media2success, BB.media2error);
    
+   if (BB.media2collision != null) {
+      BB.media2collision.play();
+   }
    if (BB.media2bg != null) {
       BB.media2bg.play({numberOfLoops: 50});
    }
