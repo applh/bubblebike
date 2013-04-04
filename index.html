@@ -127,10 +127,13 @@ BB.init2player=function(x, y, cf, cs) {
    s.x = x;
    s.y = y;
 
+   var next=BB.player.length;
+   s.scaleX = s.scaleY = BB.power[next]/10;
+   s.rotation = BB.ma[next];
+
    //Add Shape instance to stage display list.
    stage.addChild(s);
 
-   var next=BB.player.length;
    BB.player[next]=s;
 
    return s;
@@ -181,11 +184,13 @@ BB.init2npcs=function() {
     BB.init2npc(2*BB.w3, 2*BB.h3, "#ff5500", "#ff0000", 1, 10);
     BB.init2npc(BB.w2, BB.h2, "#ff5500", "#ff0000", 1, 10);
 
-    BB.init2npc(BB.w3, BB.h3, "#ff5500", "#ff0000", 1, 10);
-    BB.init2npc(2*BB.w3, BB.h3, "#ff5500", "#ff0000", 1, 10);
-    BB.init2npc(BB.w3, 2*BB.h3, "#ff5500", "#ff0000", 1, 10);
-    BB.init2npc(2*BB.w3, 2*BB.h3, "#ff5500", "#ff0000", 1, 10);
-    BB.init2npc(BB.w2, BB.h2, "#ff5500", "#ff0000", 1, 10);
+    if (BB.width*BB.height > 1400000) {
+      BB.init2npc(BB.w3, BB.h3, "#ff5500", "#ff0000", 1, 10);
+      BB.init2npc(2*BB.w3, BB.h3, "#ff5500", "#ff0000", 1, 10);
+      BB.init2npc(BB.w3, 2*BB.h3, "#ff5500", "#ff0000", 1, 10);
+      BB.init2npc(2*BB.w3, 2*BB.h3, "#ff5500", "#ff0000", 1, 10);
+      BB.init2npc(BB.w2, BB.h2, "#ff5500", "#ff0000", 1, 10);
+    }
 }
 
 BB.npc2update=function(pid) {
@@ -243,8 +248,8 @@ BB.dy4=-1;
 BB.mx=new Array(1,-1,0,0);
 BB.my=new Array(0,0,1,-1);
 BB.mr=new Array(16,16,16,16); // radius
-BB.ma=new Array(0,180,270,90); // angle
-BB.power=new Array(10,10,10,10); // angle
+BB.ma=new Array(90, 0, 270, 180); // angle
+BB.power=new Array(20,20,20,20); // angle
 
 BB.game2level=50;
 
@@ -276,6 +281,7 @@ BB.player2update=function(player, pid) {
 
 };
 
+BB.player2name=new Array("RED", "GREEN", "BLUE", "WHITE");
 BB.color=new Array("#ff8844", "#44ff44", "#00aaff", "#ffffff");
 
 BB.text2winner=null
@@ -319,9 +325,9 @@ BB.frame2update=function (event) {
    else if (BB.winner) {
 
       var win2id=BB.winid;
-      var win2name=1+BB.winid;
-      var txt="* PLAYER "+win2name+" WINS"
-      + "\n\n* LEVEL "+ BB.game2level 
+      var win2name=BB.player2name[win2id];
+      var txt="PLAYER "+win2name+" WINS"
+      + "\n\n* level "+ BB.game2level 
       + "\n\n* touch to play";
 
       BB.game2level+=10;
@@ -379,11 +385,6 @@ BB.showMessage=function (msg, color) {
       stage.addChild(BB.text2winner);
    }
 
-   //if (BB.text2info != null) {
-   //   stage.removeChild(BB.text2info);
-   //   BB.text2info=null;
-   //}
-
    if (BB.text2info == null) {
       BB.text2info = new createjs.Text("", "8px Monospace", color);
       BB.text2info.x = 5;
@@ -404,7 +405,7 @@ BB.frame2players=function () {
       if (BB.mr[p] >40) BB.mr[p]=40;
 
       var da=20*Math.random()-10;
-      if (da*da < 60) da=0; // reduce brownian noise
+      if (da*da < 70) da=0; // reduce brownian noise
       BB.ma[p]= (BB.ma[p]+Math.round(da)) % 360;
       
       var dx=.2 * BB.mr[p] * Math.cos(BB.ma[p]*Math.PI/180);
@@ -647,9 +648,9 @@ BB.game2reset=function () {
 
    BB.mx=new Array(1,-1,0,0);
    BB.my=new Array(0,0,1,-1);
-   BB.mr=new Array(16,16,16,16); // radius
-   BB.ma=new Array(270,0,90,180); // angle
-   BB.power=new Array(10,10,10,10); // angle
+   BB.mr=new Array(20,20,20,20); // radius
+   BB.ma=new Array(90,0,270,180); // angle
+   BB.power=new Array(20,20,20,20); // angle
 
    BB.init2target(BB.game2level, BB.target2color);
 
