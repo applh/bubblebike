@@ -118,10 +118,21 @@ BB.init2button=function(x, y, cf) {
 BB.init2player=function(x, y, cf, cs) {
    //Create a Shape DisplayObject.
    var s = new createjs.Shape();
-   s.graphics.beginStroke(cs).beginFill(cf).drawCircle(0, 0, 10)
-      .beginFill(cs).drawRoundRect(-8, -2, 19, 4, 2)
-      .beginFill(cf).drawRoundRect(-7, -3, 7, 6, 4)
-      .beginFill(cf).drawRoundRect(2, -3, 8, 6, 4)
+   s.graphics
+      .beginStroke(cs)
+      .beginLinearGradientFill([cs,cf], [0,1], -5,-5, 5,5)
+      .drawCircle(0, 0, 10)
+
+      .beginFill(cs)
+      .drawRoundRectComplex(-6,-2, 18,4, 2,-2,-2,2)
+
+      .beginStroke(cs)
+      .beginLinearGradientFill([cs, cf], [0,1], -5,-5, 5,5)
+      .drawRoundRectComplex(-7,-3, 7,6, 4,1,1,4)
+
+      .beginStroke(cs)
+      .beginLinearGradientFill([cs,"#ffffff"], [0.5,1], -5,-5, 5,5)
+      .drawRoundRectComplex(0,-3, 11,6, -4,4,4,-4)
       ;
    //Set position of Shape instance.
    s.x = x;
@@ -142,13 +153,17 @@ BB.init2player=function(x, y, cf, cs) {
 BB.init2npc=function(x, y, cf, cs, alpha, radius) {
    //Create a Shape DisplayObject.
    var s = new createjs.Shape();
-   s.graphics.beginStroke(cs).beginFill(cf).drawCircle(0, 0, radius);
+   s.graphics.beginStroke(cs)
+     .beginRadialGradientFill([cf, cs], [0.5,1], 0,0,0, 0,0,radius)
+     //.beginFill(cf)
+     .drawCircle(0, 0, radius);
    //Set position of Shape instance.
    s.x = x;
    s.y = y;
    s.alpha = alpha;
 
     //Add Shape instance to stage display list.
+   s.cache(-radius-1, -radius-1, 2*radius+2, 2*radius+2);
    stage.addChild(s);
 
    var next=BB.npc.length;
@@ -161,7 +176,34 @@ BB.init2npc=function(x, y, cf, cs, alpha, radius) {
    return s;
 }
 
-BB.npc2remove=function() {
+BB.group2deco=new Array();
+BB.init2deco=function(x, y, cf, cs, alpha, radius) {
+   //Create a Shape DisplayObject.
+   var s = new createjs.Shape();
+   s.graphics.beginStroke(cs)
+     .beginFill(cf)
+     .drawCircle(0, 0, radius);
+   //Set position of Shape instance.
+   s.x = x;
+   s.y = y;
+   s.alpha = alpha;
+
+    //Add Shape instance to stage display list.
+   stage.addChild(s);
+
+   var next=BB.npc.length;
+   BB.npc[next]=s;
+
+   BB.npa[next]=Math.round(360*Math.random());
+   BB.npr[next]=Math.round(20*Math.random());
+   BB.npdx[next]=0;
+   BB.npdy[next]=0;
+
+   return s;
+}
+
+
+BB.deco2remove=function() {
    var tl=BB.npc.length;
    if (tl >0) {
       var last=BB.npc[tl-1];
@@ -335,6 +377,8 @@ BB.frame2update=function (event) {
       BB.game2reset();
 
       BB.game2finish=true;
+
+      //reset angles
       BB.showMessage(txt, BB.color[win2id]);
    }
    else if (BB.game2pause){
@@ -357,9 +401,9 @@ BB.scene2animate=function (fps) {
          var alpha=0.002*Math.round(1000/BB.npc.length);
          var radius=Math.round(10+100*Math.random());
 
-         BB.init2npc(BB.w2, BB.h2, cf, cs, alpha, radius);
+         BB.init2deco(BB.w2, BB.h2, cf, cs, alpha, radius);
       }
-      if (fps < BB.fps2min) BB.npc2remove();
+      if (fps < BB.fps2min) BB.deco2remove();
 
 };
 
@@ -539,7 +583,7 @@ BB.game2press=function (smx, smy) {
 };
 
 
-BB.frame2npcs=function (event) {
+BB.frame2npcs=function () {
 
    for (var p=0; p<BB.npc.length; p++) {
       var dr=4*Math.random()-2;
@@ -645,6 +689,11 @@ BB.game2reset=function () {
    BB.player3.y=3*BB.h4;
    BB.player4.x=3*BB.w4;
    BB.player4.y=BB.h2;
+
+   BB.player1.rotation=90;
+   BB.player2.rotation=0;
+   BB.player3.rotation=270;
+   BB.player4.rotation=180;
 
    BB.mx=new Array(1,-1,0,0);
    BB.my=new Array(0,0,1,-1);
