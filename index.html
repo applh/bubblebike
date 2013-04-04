@@ -301,18 +301,6 @@ BB.frame2update=function (event) {
 
    if (BB.game2play) {
 
-      if (fps > BB.fps2min) {
-         var radius=Math.round(100*Math.random());
-         var alpha=0.002*Math.round(1000/BB.npc.length);
-         var cr=Math.round(10+200*Math.random());
-         var cg=Math.round(10+200*Math.random());
-         var cb=Math.round(10+200*Math.random());
-         var cf="rgb("+cr+","+cg+","+cb+")";
-         var cs="rgb("+cg+","+cb+","+cr+")";
-         BB.init2npc(BB.w2, BB.h2, cf, cs, alpha, radius);
-      }
-      if (fps < BB.fps2min) BB.npc2remove();
-
       if (BB.text2winner != null) {
          if (BB.text2winner.alpha > 0) {
             BB.text2winner.alpha-=.1;
@@ -324,6 +312,8 @@ BB.frame2update=function (event) {
       }
 
       BB.frame2players();
+
+      BB.scene2animate(fps);
       BB.frame2npcs();
    }
    else if (BB.winner) {
@@ -350,6 +340,24 @@ BB.frame2update=function (event) {
    stage.update();
 };
 
+BB.scene2animate=function (fps) {
+      if (fps > BB.fps2min) {
+         var cr=Math.round(10+200*Math.random());
+         var cg=Math.round(10+200*Math.random());
+         var cb=Math.round(10+200*Math.random());
+
+         var cf="rgb("+cr+","+cg+","+cb+")";
+         var cs="rgb("+cg+","+cb+","+cr+")";
+         var alpha=0.002*Math.round(1000/BB.npc.length);
+         var radius=Math.round(100*Math.random());
+
+         BB.init2npc(BB.w2, BB.h2, cf, cs, alpha, radius);
+      }
+      if (fps < BB.fps2min) BB.npc2remove();
+
+};
+
+
 BB.text2info=null;
 
 BB.showMessage=function (msg, color) {
@@ -359,7 +367,8 @@ BB.showMessage=function (msg, color) {
    }
 
    if (BB.text2winner == null) {
-      BB.text2winner = new createjs.Text(msg, "50px Monospace", color);
+      var fsize=Math.round(BB.h4/5);
+      BB.text2winner = new createjs.Text(msg, fsize+"px Monospace", color);
       if (msg.length < 20) {
          BB.text2winner.x = BB.w2;
       }
