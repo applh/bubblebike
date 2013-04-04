@@ -154,8 +154,8 @@ BB.init2npc=function(x, y, cf, cs, alpha, radius) {
    //Create a Shape DisplayObject.
    var s = new createjs.Shape();
    s.graphics.beginStroke(cs)
-     .beginRadialGradientFill([cf, cs], [0.5,1], 0,0,0, 0,0,radius)
-     //.beginFill(cf)
+     //.beginRadialGradientFill([cf, cs], [0.5,1], 0,0,0, 0,0,radius)
+     .beginFill(cf)
      .drawCircle(0, 0, radius);
    //Set position of Shape instance.
    s.x = x;
