@@ -758,13 +758,27 @@ BB.sound2complete=function(event) {
            }
         }
 
-// Wait for Cordova to load
-document.addEventListener("deviceready", BB.device2ready, false);
+
+// PHONEGAP
+
+BB.media2bg=null;
+
+BB.media2success=function() {
+};
+
+BB.media2error=function(error) {
+};
 
 // Cordova is ready
 BB.device2ready=function() {
-   playAudio("assets/bb-bg.mp3");
+   BB.media2bg = new Media("assets/bb-bg.mp3", BB.media2success, BB.media2error);
+   
+   if (BB.media2bg != null) {
+      BB.media2bg.play();
+   }
 };
+// Wait for Cordova to load
+document.addEventListener("deviceready", BB.device2ready, false);
 
     </script>
 </head>
