@@ -523,6 +523,17 @@ BB.game2press=function (smx, smy) {
          if (BB.game2finish) BB.game2finish=false;
       }
    }
+
+   if (BB.game2pause) {
+      if (BB.media2bg != null) {
+         BB.media2bg.pause();
+      }
+   }
+   else {
+      if (BB.media2bg != null) {
+         BB.media2bg.play();
+      }
+   }
 };
 
 
@@ -576,7 +587,7 @@ BB.game2collision=function () {
             stage.removeChild(curp);
             BB.set2collision[p]=null;
          }
-         else if (curp.alpha >0.94) {
+         else if (curp.alpha >0.9) {
             count++;
          }
       }
@@ -593,14 +604,12 @@ BB.game2collision=function () {
       BB.set2collision=clean;
    }
 
+   BB.sound2delay--;
    if (count > 0) {
       if (BB.media2collision != null) {
-         if (BB.sound2delay <1) {
+         if (BB.sound2delay <0) {
             BB.media2collision.play();
             BB.sound2delay=BB.fps2target;
-         }
-         else {
-            BB.sound2delay--;
          }
       }
    }
