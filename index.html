@@ -554,12 +554,10 @@ BB.player2collision=function (x, y) {
    stage.addChild(bitmap);
    BB.set2collision[next]=bitmap;
 
-   if (BB.media2collision != null) {
-      BB.media2collision.play();
-   }
 };
 
 BB.game2collision=function () {
+   var count=0;
    for (var p=0; p < BB.set2collision.length; p++) {
       var curp=BB.set2collision[p];
       if (curp != null) {
@@ -567,6 +565,9 @@ BB.game2collision=function () {
          if (curp.alpha <0.1) {
             stage.removeChild(curp);
             BB.set2collision[p]=null;
+         }
+         else if (curp.alpha >0.94) {
+            count++;
          }
       }
    }
@@ -580,6 +581,12 @@ BB.game2collision=function () {
          }
       }
       BB.set2collision=clean;
+   }
+
+   if (count > 0) {
+      if (BB.media2collision != null) {
+         BB.media2collision.play();
+      }
    }
 };
 
