@@ -124,14 +124,11 @@ BB.init2player=function(x, y, cf, cs) {
       .beginStroke(cs)
       .beginFill(cf)
       .drawCircle(0, 0, 10)
-
       .beginFill(cs)
-      .drawRoundRectComplex(-6,-2, 18,4, 2,-2,-2,2)
-
+      .drawRoundRectComplex(-8,-2, 20,4, 2,-2,-2,2)
       .beginStroke(cs)
       .beginFill(cf)
       .drawRoundRectComplex(-7,-3, 7,6, 4,1,1,4)
-
       .beginStroke(cs)
       .beginFill(cf)
       .drawRoundRectComplex(0,-3, 11,6, -4,4,4,-4)
@@ -670,7 +667,8 @@ BB.game2collision=function () {
     BB.player3=BB.init2player(BB.w2, 3*BB.h4, "#aaaaff", "#5555ff");
     BB.player4=BB.init2player(3*BB.w4, BB.h2, "#ffffff", "#555555");
 */
-BB.target2color="#eeeeee";
+
+BB.target2color="#ffff00";
 
 BB.game2reset=function () {
 
