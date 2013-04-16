@@ -121,17 +121,25 @@ BB.init2player=function(x, y, cf, cs) {
    //Create a Shape DisplayObject.
    var s = new createjs.Shape();
    s.graphics
+      // bubble
       .beginStroke(cs)
       .beginFill(cf)
       .drawCircle(0, 0, 10)
+      // body
+      .beginStroke(cs)
       .beginFill(cs)
-      .drawRoundRectComplex(-8,-2, 20,4, 2,-2,-2,2)
+      .drawRoundRectComplex(-11,-3, 22,6, 2,-3,-3,2)
+      // front
       .beginStroke(cs)
+      .beginFill("#000000")
+      .drawPolyStar(1, 0, 6, 5, .5, 0)
+      .beginStroke(cf)
+      .beginFill("transparent")
+      .drawRoundRectComplex(1,-2, 9,4, -4,4,4,-4)
+      // back
+      .beginStroke(cf)
       .beginFill(cf)
-      .drawRoundRectComplex(-7,-3, 7,6, 4,1,1,4)
-      .beginStroke(cs)
-      .beginFill(cf)
-      .drawRoundRectComplex(0,-3, 11,6, -4,4,4,-4)
+      .drawRoundRectComplex(-10,-2, 8,4, 4,1,1,4)
       ;
    //Set position of Shape instance.
    s.x = x;
@@ -176,10 +184,21 @@ BB.init2npc=function(x, y, cf, cs, alpha, radius) {
 BB.group2deco=new Array();
 BB.init2deco=function(x, y, cf, cs, alpha, radius) {
    //Create a Shape DisplayObject.
+
    var s = new createjs.Shape();
-   s.graphics.beginStroke(cs)
-     .beginFill(cf)
-     .drawCircle(0, 0, radius);
+   var sg=s.graphics;
+   sg.beginStroke(cs)
+     .beginFill(cf);
+
+   var sd=Math.random();
+   if (sd < 0.7) {
+      sg.drawCircle(0, 0, radius);
+   }
+   else {
+      var sp=0.7*Math.random();
+      var sa=Math.round(180*sd);
+      sg.drawPolyStar(0, 0, radius, 5, sp, sa);
+   }
    //Set position of Shape instance.
    s.x = x;
    s.y = y;
