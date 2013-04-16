@@ -204,6 +204,11 @@ BB.deco2remove=function() {
    var tl=BB.npc.length;
    if (tl >0) {
       var last=BB.npc[tl-1];
+
+      // FIXME
+      // keep Bubble Bombs
+      if (last.alpha > 0.5) return;
+      
       BB.npc.pop();
       stage.removeChild(last);
    }
