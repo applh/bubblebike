@@ -121,6 +121,7 @@ BB.init2player=function(x, y, cf, cs) {
    //Create a Shape DisplayObject.
    var s = new createjs.Shape();
    s.graphics
+      .setStrokeStyle(2, 0, 0, 10, true)
       // bubble
       .beginStroke(cs)
       .beginFill(cf)
@@ -128,11 +129,11 @@ BB.init2player=function(x, y, cf, cs) {
       // body
       .beginStroke(cs)
       .beginFill(cs)
-      .drawRoundRectComplex(-11,-3, 22,6, 2,-3,-3,2)
+      .drawRoundRectComplex(-11,-3, 22,6, 2,-4,-4,2)
       // front
       .beginStroke(cs)
       .beginFill("#000000")
-      .drawPolyStar(1, 0, 6, 5, .5, 0)
+      .drawPolyStar(0, 0, 6, 5, .6, 0)
       .beginStroke(cf)
       .beginFill("transparent")
       .drawRoundRectComplex(1,-2, 9,4, -4,4,4,-4)
@@ -312,7 +313,9 @@ BB.mx=new Array(1,-1,0,0);
 BB.my=new Array(0,0,1,-1);
 BB.mr=new Array(16,16,16,16); // radius
 BB.ma=new Array(90, 0, 270, 180); // angle
+BB.mda=new Array(0, 0, 0, 0); // delta angle
 BB.power=new Array(20,20,20,20); // angle
+BB.closest2=new Array(10000,10000,10000,10000); // closest distance to another object
 
 BB.game2level=50;
 
@@ -368,7 +371,7 @@ BB.frame2update=function (event) {
       BB.text2info.text=
          fps+"/"+BB.npc.length 
          +"/" +BB.width+"x"+BB.height
-         +"/ v1.0 BY APPLH.COM";
+         +"/ v1.1 BY APPLH.COM";
    }
 
    if (BB.game2play) {
@@ -463,6 +466,14 @@ BB.showMessage=function (msg, color) {
 
 };
 
+BB.frame2reset=function () {
+   // closest distance to another element
+   BB.closest2[0]=10000; 
+   BB.closest2[1]=10000; 
+   BB.closest2[2]=10000; 
+   BB.closest2[3]=10000; 
+};
+
 BB.frame2players=function () {
 
    for (var p=0; p<BB.mx.length; p++) {
@@ -472,9 +483,20 @@ BB.frame2players=function () {
       if (BB.mr[p] <0) BB.mr[p]=0;
       if (BB.mr[p] >40) BB.mr[p]=40;
 
-      var da=20*Math.random()-10;
-      if (da*da < 70) da=0; // reduce brownian noise
-      BB.ma[p]= (BB.ma[p]+Math.round(da)) % 360;
+      var curpow=BB.power[p];
+      var curclos2=BB.closest2[p];
+      var maxturn=1;
+      if (curclos2 > 2*curpow*curpow) maxturn+=2;
+
+      var dda=Math.round(16*(Math.random()-0.5));
+      // reduce brownian noise
+      if (Math.abs(dda) > maxturn) dda=0;
+
+      BB.mda[p]=BB.mda[p]+ dda;
+      if (Math.abs(BB.mda[p]) > 8) BB.mda[p]=0;
+
+      BB.ma[p]= (BB.ma[p]+BB.mda[p]) % 360;
+
       
       var dx=.2 * BB.mr[p] * Math.cos(BB.ma[p]*Math.PI/180);
       var dy=.2 * BB.mr[p] * Math.sin(BB.ma[p]*Math.PI/180);
@@ -483,6 +505,8 @@ BB.frame2players=function () {
       BB.my[p]=Math.round(dy);
    }
 
+
+   BB.frame2reset();
    BB.game2players();
    BB.game2npcs();
    BB.game2collision();
@@ -500,7 +524,12 @@ BB.game2players=function () {
       var player1=BB.player[p1];
       for (var p2=p1+1; p2<BB.player.length; p2++) {
          var player2=BB.player[p2];
+
          var d2=(player1.x-player2.x)*(player1.x-player2.x) + (player1.y-player2.y)*(player1.y-player2.y);
+
+         // update closest distance
+         if (d2 < BB.closest2[p1]) BB.closest2[p1]=d2;
+         if (d2 < BB.closest2[p2]) BB.closest2[p2]=d2;
 
          var level=(BB.power[p1]+BB.power[p2])*(BB.power[p2]+BB.power[p2]);
          if (d2 < level) {
@@ -531,6 +560,10 @@ BB.game2npcs=function () {
       for (var p2=0; p2<BB.player.length; p2++) {
          var player2=BB.player[p2];
          var d2=(player1.x-player2.x)*(player1.x-player2.x) + (player1.y-player2.y)*(player1.y-player2.y);
+
+         // update closest distance
+         if (d2 < BB.closest2[p1]) BB.closest2[p1]=d2;
+         if (d2 < BB.closest2[p2]) BB.closest2[p2]=d2;
 
          var level=(10+BB.power[p2])*(10+BB.power[p2]);
          if (d2 < level) {
