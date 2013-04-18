@@ -124,7 +124,7 @@ BB.init2player=function(x, y, cf, cs) {
       .setStrokeStyle(2, 0, 0, 10, true)
       // bubble
       .beginStroke(cs)
-      .beginFill(cf)
+      .beginFill("transparent")
       .drawCircle(0, 0, 10)
       // body
       .beginStroke(cs)
@@ -399,8 +399,14 @@ BB.frame2update=function (event) {
       + "\n\n* level "+ BB.game2level 
       + "\n\n* touch to play";
 
+      if (BB.media2bg != null) {
+         BB.media2bg.stop();
+      }
       if (BB.media2wins[win2id] != null) {
          BB.media2wins[win2id].play();
+      }
+      if (BB.media2bg != null) {
+         BB.media2bg.play({numberOfLoops: 50});
       }
 
       BB.game2level+=10;
@@ -592,46 +598,48 @@ BB.game2press=function (smx, smy) {
       if (d2 < level2) {
          found=true;
          var mda=7;
+         var tl=90;
+         var tr=270;
          //player1.rotation=(player1.rotation+90)%360;
          if (p1 == 0) {
             // turn left
             BB.mda[0]=-mda;
-            BB.ma[0]=(BB.ma[0]+60)%360;
+            BB.ma[0]=(BB.ma[0]+tl)%360;
          }
          else if (p1 == 1) {
             // turn right
             BB.mda[0]=mda;
-            BB.ma[0]=(BB.ma[0]+300)%360;
+            BB.ma[0]=(BB.ma[0]+tr)%360;
          }
          else if (p1 == 2) {
             // turn left
             BB.mda[1]=-mda
-            BB.ma[1]=(BB.ma[1]+60)%360;
+            BB.ma[1]=(BB.ma[1]+tl)%360;
          }
          else if (p1 == 3) {
             // turn right
             BB.mda[1]=mda;
-            BB.ma[1]=(BB.ma[1]+300)%360;
+            BB.ma[1]=(BB.ma[1]+tr)%360;
          }
          else if (p1 == 4) {
             // turn left
             BB.mda[2]=-mda;
-            BB.ma[2]=(BB.ma[2]+60)%360;
+            BB.ma[2]=(BB.ma[2]+tl)%360;
          }
          else if (p1 == 5) {
             // turn right
             BB.mda[2]=mda;
-            BB.ma[2]=(BB.ma[2]+300)%360;
+            BB.ma[2]=(BB.ma[2]+tr)%360;
          }
          else if (p1 == 6) {
             // turn left
             BB.mda[3]=-mda;
-            BB.ma[3]=(BB.ma[3]+60)%360;
+            BB.ma[3]=(BB.ma[3]+tl)%360;
          }
          else if (p1 == 7) {
             // turn right
             BB.mda[3]=mda;
-            BB.ma[3]=(BB.ma[3]+300)%360;
+            BB.ma[3]=(BB.ma[3]+tr)%360;
          }
       }
    }
@@ -942,9 +950,9 @@ BB.device2ready=function() {
    BB.media2bg = new Media("assets/bb-bg.mp3", BB.media2success, BB.media2error);
    BB.media2collision = new Media("assets/bb-collision.mp3", BB.media2success, BB.media2error);
    BB.media2wins[0] = new Media("assets/red-wins.mp3", BB.media2success, BB.media2error);
-   BB.media2wins[1] = new Media("assets/green-bg.mp3", BB.media2success, BB.media2error);
-   BB.media2wins[2] = new Media("assets/blue-bg.mp3", BB.media2success, BB.media2error);
-   BB.media2wins[3] = new Media("assets/white-bg.mp3", BB.media2success, BB.media2error);
+   BB.media2wins[1] = new Media("assets/green-wins.mp3", BB.media2success, BB.media2error);
+   BB.media2wins[2] = new Media("assets/blue-wins.mp3", BB.media2success, BB.media2error);
+   BB.media2wins[3] = new Media("assets/white-wins.mp3", BB.media2success, BB.media2error);
    
    if (BB.media2bg != null) {
       BB.media2bg.play({numberOfLoops: 50});
