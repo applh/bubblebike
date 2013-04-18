@@ -405,9 +405,6 @@ BB.frame2update=function (event) {
       if (BB.media2wins[win2id] != null) {
          BB.media2wins[win2id].play();
       }
-      if (BB.media2bg != null) {
-         BB.media2bg.play({numberOfLoops: 50});
-      }
 
       BB.game2level+=10;
 
@@ -498,12 +495,16 @@ BB.frame2players=function () {
       var maxturn=1;
       if (curclos2 > 2*curpow*curpow) maxturn+=2;
 
-      var dda=Math.round(16*(Math.random()-0.5));
+      var dda=BB.user2turn[p]+ Math.round(16*(Math.random()-0.5));
       // reduce brownian noise
       if (Math.abs(dda) > maxturn) dda=0;
 
-      BB.mda[p]=BB.mda[p]+ dda;
+      BB.mda[p]=BB.user2turn[p] + BB.mda[p]+ dda;
       if (Math.abs(BB.mda[p]) > 8) BB.mda[p]=0;
+
+      // reset user impulse
+      BB.user2turn[p]--;
+      if (BB.user2turn[p] < 0) BB.user2turn[p] = 0;
 
       BB.ma[p]= (BB.ma[p]+BB.mda[p]) % 360;
 
@@ -588,6 +589,8 @@ BB.game2npcs=function () {
       
 };
 
+BB.user2turn=new Array(0,0,0,0);
+
 BB.game2press=function (smx, smy) {
    var found=false;
    var level2=2500; // 50x50
@@ -598,46 +601,55 @@ BB.game2press=function (smx, smy) {
       if (d2 < level2) {
          found=true;
          var mda=7;
-         var tl=90;
-         var tr=270;
+         var mdt=-8;
+         var tl=60;
+         var tr=300;
          //player1.rotation=(player1.rotation+90)%360;
          if (p1 == 0) {
             // turn left
+            BB.user2turn[0]=-mdt;
             BB.mda[0]=-mda;
             BB.ma[0]=(BB.ma[0]+tl)%360;
          }
          else if (p1 == 1) {
             // turn right
+            BB.user2turn[0]=mdt;
             BB.mda[0]=mda;
             BB.ma[0]=(BB.ma[0]+tr)%360;
          }
          else if (p1 == 2) {
             // turn left
+            BB.user2turn[1]=-mdt;
             BB.mda[1]=-mda
             BB.ma[1]=(BB.ma[1]+tl)%360;
          }
          else if (p1 == 3) {
             // turn right
+            BB.user2turn[1]=mdt;
             BB.mda[1]=mda;
             BB.ma[1]=(BB.ma[1]+tr)%360;
          }
          else if (p1 == 4) {
             // turn left
+            BB.user2turn[2]=-mdt;
             BB.mda[2]=-mda;
             BB.ma[2]=(BB.ma[2]+tl)%360;
          }
          else if (p1 == 5) {
             // turn right
+            BB.user2turn[2]=mdt;
             BB.mda[2]=mda;
             BB.ma[2]=(BB.ma[2]+tr)%360;
          }
          else if (p1 == 6) {
             // turn left
+            BB.user2turn[3]=-mdt;
             BB.mda[3]=-mda;
             BB.ma[3]=(BB.ma[3]+tl)%360;
          }
          else if (p1 == 7) {
             // turn right
+            BB.user2turn[3]=mdt;
             BB.mda[3]=mda;
             BB.ma[3]=(BB.ma[3]+tr)%360;
          }
