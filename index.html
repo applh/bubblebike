@@ -399,6 +399,10 @@ BB.frame2update=function (event) {
       + "\n\n* level "+ BB.game2level 
       + "\n\n* touch to play";
 
+      if (BB.media2wins[win2id] != null) {
+         BB.media2wins[win2id].play();
+      }
+
       BB.game2level+=10;
 
       BB.game2reset();
@@ -587,29 +591,46 @@ BB.game2press=function (smx, smy) {
       var d2=(player1.x-smx)*(player1.x-smx) + (player1.y-smy)*(player1.y-smy);
       if (d2 < level2) {
          found=true;
-         player1.rotation=(player1.rotation+90)%360;
+         var mda=7;
+         //player1.rotation=(player1.rotation+90)%360;
          if (p1 == 0) {
+            // turn left
+            BB.mda[0]=-mda;
             BB.ma[0]=(BB.ma[0]+60)%360;
          }
          else if (p1 == 1) {
+            // turn right
+            BB.mda[0]=mda;
             BB.ma[0]=(BB.ma[0]+300)%360;
          }
          else if (p1 == 2) {
+            // turn left
+            BB.mda[1]=-mda
             BB.ma[1]=(BB.ma[1]+60)%360;
          }
          else if (p1 == 3) {
+            // turn right
+            BB.mda[1]=mda;
             BB.ma[1]=(BB.ma[1]+300)%360;
          }
          else if (p1 == 4) {
+            // turn left
+            BB.mda[2]=-mda;
             BB.ma[2]=(BB.ma[2]+60)%360;
          }
          else if (p1 == 5) {
+            // turn right
+            BB.mda[2]=mda;
             BB.ma[2]=(BB.ma[2]+300)%360;
          }
          else if (p1 == 6) {
+            // turn left
+            BB.mda[3]=-mda;
             BB.ma[3]=(BB.ma[3]+60)%360;
          }
          else if (p1 == 7) {
+            // turn right
+            BB.mda[3]=mda;
             BB.ma[3]=(BB.ma[3]+300)%360;
          }
       }
@@ -908,6 +929,7 @@ BB.sound2complete=function(event) {
 
 BB.media2bg=null;
 BB.media2collision=null;
+BB.media2wins=new Array();
 
 BB.media2success=function() {
 };
@@ -919,10 +941,11 @@ BB.media2error=function(error) {
 BB.device2ready=function() {
    BB.media2bg = new Media("assets/bb-bg.mp3", BB.media2success, BB.media2error);
    BB.media2collision = new Media("assets/bb-collision.mp3", BB.media2success, BB.media2error);
+   BB.media2wins[0] = new Media("assets/red-wins.mp3", BB.media2success, BB.media2error);
+   BB.media2wins[1] = new Media("assets/green-bg.mp3", BB.media2success, BB.media2error);
+   BB.media2wins[2] = new Media("assets/blue-bg.mp3", BB.media2success, BB.media2error);
+   BB.media2wins[3] = new Media("assets/white-bg.mp3", BB.media2success, BB.media2error);
    
-   //if (BB.media2collision != null) {
-   //   BB.media2collision.play();
-   //}
    if (BB.media2bg != null) {
       BB.media2bg.play({numberOfLoops: 50});
    }
