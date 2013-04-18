@@ -311,13 +311,15 @@ BB.dy4=-1;
 
 BB.mx=new Array(1,-1,0,0);
 BB.my=new Array(0,0,1,-1);
-BB.mr=new Array(16,16,16,16); // radius
+
+BB.mr=new Array(30,30,30,30); // radius
+BB.power=new Array(30,30,30,30); // power
+
 BB.ma=new Array(90, 0, 270, 180); // angle
 BB.mda=new Array(0, 0, 0, 0); // delta angle
-BB.power=new Array(20,20,20,20); // angle
 BB.closest2=new Array(10000,10000,10000,10000); // closest distance to another object
 
-BB.game2level=50;
+BB.game2level=60;
 
 BB.player2update=function(player, pid) {
 
@@ -503,8 +505,7 @@ BB.frame2players=function () {
       if (Math.abs(BB.mda[p]) > 8) BB.mda[p]=0;
 
       // reset user impulse
-      BB.user2turn[p]--;
-      if (BB.user2turn[p] < 0) BB.user2turn[p] = 0;
+      BB.user2turn[p]=Math.round(.5 * BB.user2turn[p]);
 
       BB.ma[p]= (BB.ma[p]+BB.mda[p]) % 360;
 
@@ -601,7 +602,7 @@ BB.game2press=function (smx, smy) {
       if (d2 < level2) {
          found=true;
          var mda=7;
-         var mdt=-8;
+         var mdt=-40;
          var tl=60;
          var tr=300;
          //player1.rotation=(player1.rotation+90)%360;
@@ -796,9 +797,9 @@ BB.game2reset=function () {
 
    BB.mx=new Array(1,-1,0,0);
    BB.my=new Array(0,0,1,-1);
-   BB.mr=new Array(20,20,20,20); // radius
+   BB.mr=new Array(30,30,30,30); // radius
    BB.ma=new Array(90,0,270,180); // angle
-   BB.power=new Array(20,20,20,20); // angle
+   BB.power=new Array(30,30,30,30); // angle
 
    BB.init2target(BB.game2level, BB.target2color);
 
